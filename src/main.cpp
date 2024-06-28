@@ -20,11 +20,11 @@ auto main(int argc, char* argv[]) -> int {
     }
 
     if(result.count("send") != 0U){
-        tlog::tprint("send!!!", tlog::tlog_status::INFO);
+        tlog::tprint({"send!!!"}, tlog::tlog_status::INFO);
         return 0;
     }
     if(result.count("recv") != 0U){
-        tlog::tprint("recv!!!", tlog::tlog_status::INFO);
+        tlog::tprint({"recv!!!"}, tlog::tlog_status::INFO);
         return 0;
     }
 
@@ -32,8 +32,7 @@ auto main(int argc, char* argv[]) -> int {
         // read file list, like: file1,file2,file3
         auto files = result["file"].as<std::vector<std::string>>();
         for (const auto& val : files) {
-            std::string argu = "file: " + val +"\n";
-            tlog::tprint(argu, tlog::tlog_status::INFO);
+            tlog::tprint({"file: ", val}, tlog::tlog_status::INFO);
         }
         return 0;
     }
