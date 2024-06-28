@@ -40,11 +40,5 @@ endif()
 message(STATUS "CMAKE_EXE_LINKER_FLAGS: ${CMAKE_EXE_LINKER_FLAGS}")
 message(STATUS "CMAKE_SHARED_LINKER_FLAGS: ${CMAKE_SHARED_LINKER_FLAGS}")
 
-add_executable(${PROGRAM_NAME} "src/main.cpp")
-
-set(
-    FB_THIRD_PARTY_INCLUDE_DIR
-    ${PROJECT_SOURCE_DIR}/third_party/cxxopts/include
-)
-
-include_directories(${FB_THIRD_PARTY_INCLUDE_DIR})
+add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
+add_subdirectory(src)
