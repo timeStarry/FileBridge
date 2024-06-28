@@ -1,7 +1,9 @@
+#include <tlog.h>
+
 #include <cxxopts.hpp>
+
 #include <iostream>
 #include <string>
-#include <tlog.h>
 
 auto main(int argc, char* argv[]) -> int {
     cxxopts::Options options("fb", "基于C++的端到端文件传输服务");
@@ -11,7 +13,7 @@ auto main(int argc, char* argv[]) -> int {
         ("f,file", "The filename(s) to process",
             cxxopts::value<std::vector<std::string>>())
         ("h,help", "help infomation");
-    
+
     auto result = options.parse(argc, argv);
 
     if (result.count("help") != 0U) {
@@ -19,11 +21,11 @@ auto main(int argc, char* argv[]) -> int {
         return 0;
     }
 
-    if(result.count("send") != 0U){
+    if (result.count("send") != 0U) {
         tlog::tprint({"send!!!"}, tlog::tlog_status::INFO);
         return 0;
     }
-    if(result.count("recv") != 0U){
+    if (result.count("recv") != 0U) {
         tlog::tprint({"recv!!!"}, tlog::tlog_status::INFO);
         return 0;
     }
