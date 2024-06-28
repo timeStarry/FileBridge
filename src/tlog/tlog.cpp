@@ -2,7 +2,6 @@
 #include <fmt/core.h>
 #include <fmt/color.h>
 #include <string>
-// #include "fmt/format.h"
 
 namespace tlog{
     auto tprint(std::initializer_list<const std::string> src, tlog_status status) -> void{
