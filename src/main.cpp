@@ -15,18 +15,18 @@ auto main(int argc, char* argv[]) -> int {
         ("h,help", "help infomation");
 
     auto result = options.parse(argc, argv);
-
+    
     if (result.count("help") != 0U) {
         std::cout << options.help();
         return 0;
     }
 
     if (result.count("send") != 0U) {
-        tlog::tprint({"send!!!"}, tlog::tlog_status::INFO);
+        tlog::tprint({"send!!!"}, tlog::tlog_status::INFO, tlog::NO_LOG_FILE);
         return 0;
     }
     if (result.count("recv") != 0U) {
-        tlog::tprint({"recv!!!"}, tlog::tlog_status::INFO);
+        tlog::tprint({"recv!!!"}, tlog::tlog_status::INFO, tlog::NO_LOG_FILE);
         return 0;
     }
 
@@ -34,7 +34,8 @@ auto main(int argc, char* argv[]) -> int {
         // read file list, like: file1,file2,file3
         auto files = result["file"].as<std::vector<std::string>>();
         for (const auto& val : files) {
-            tlog::tprint({"file: ", val}, tlog::tlog_status::INFO);
+            tlog::tprint({"file: ", val}, tlog::tlog_status::INFO,
+                         tlog::DEFAULT_LOG_FILE);
         }
         return 0;
     }

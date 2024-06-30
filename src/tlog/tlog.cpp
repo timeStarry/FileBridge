@@ -1,12 +1,15 @@
 #include <fmt/color.h>
 #include <fmt/core.h>
+#include <fmt/ostream.h>
 #include <tlog.h>
 
-#include <string>
+#include <filesystem>
+#include <fstream>
+#include <ios>
 
 namespace tlog {
-auto tprint(std::initializer_list<const std::string> src, tlog_status status)
-    -> void {
+auto tprint(std::initializer_list<std::string_view> src, tlog_status status,
+            const std::pair<bool, std::string_view>& wf) -> void {
     if (src.size() == 0) {
         return;
     }
@@ -38,5 +41,23 @@ auto tprint(std::initializer_list<const std::string> src, tlog_status status)
             break;
     }
     fmt::print("{} {}\n", prefix, val);
+
+    if (!wf.first) {
+        return;
+    }
+
+    std::string path;
+    if (wf.second.empty()) {
+        path = "/tmp/filebridge.log";
+    } else {
+        path = wf.second;
+    }
+    if (!std::filesystem::exists(path)) {
+        std::ofstream wfile{path, std::ios::binary};
+        fmt::print(wfile, "{} {}\n", prefix, val);
+    } else {
+        std::ofstream wfile{path, std::ios::binary | std::ios::app};
+        fmt::print(wfile, "{} {}\n", prefix, val);
+    }
 }
 }  // namespace tlog
