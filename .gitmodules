@@ -1,6 +1,6 @@
 [submodule "third_party/cxxopts"]
 	path = third_party/cxxopts
 	url = https://github.com/jarro2783/cxxopts
-[submodule "third_party/fmt"]
-	path = third_party/fmt
-	url = https://github.com/fmtlib/fmt
+[submodule "third_party/tlog"]
+	path = third_party/tlog
+	url = https://github.com/suoyuan666/tlog

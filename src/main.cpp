@@ -19,7 +19,7 @@ auto main(int argc, char* argv[]) -> int {
         ("h,help", "help infomation");
 
     auto result = options.parse(argc, argv);
-    
+
     if (result.count("help") != 0U) {
         std::cout << options.help();
         return 0;
@@ -67,7 +67,7 @@ auto main(int argc, char* argv[]) -> int {
                 return -1;
         }
     } else {
-        // if mode = send or recv , then we need file(s) to deal with it.
+        // if mode == send or recv , then we need file(s) to deal with it.
         if (mode != rcmode::DEFAULT){
             tlog::tprint(
                     {"need file(s)"},
@@ -76,7 +76,7 @@ auto main(int argc, char* argv[]) -> int {
         }
         // if mode == default, then print help message.
         std::cout << options.help() << std::endl;
-       
+
     }
     return 0;
 }

@@ -42,5 +42,5 @@ endif()
 message(STATUS "CMAKE_EXE_LINKER_FLAGS: ${CMAKE_EXE_LINKER_FLAGS}")
 message(STATUS "CMAKE_SHARED_LINKER_FLAGS: ${CMAKE_SHARED_LINKER_FLAGS}")
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
+add_subdirectory(third_party)
 add_subdirectory(src)
