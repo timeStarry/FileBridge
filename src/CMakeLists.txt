@@ -1,7 +1,3 @@
-set(PROGRAM_NAME fb)
-
-add_executable(${PROGRAM_NAME} "main.cpp")
-
 set (
     FB_TP_LIB
     tlog
@@ -12,6 +8,8 @@ set(
     ${PROJECT_SOURCE_DIR}/third_party/cxxopts/include
     ${PROJECT_SOURCE_DIR}/third_party/tlog/include/tlog
 )
+
+add_executable(${PROGRAM_NAME} "main.cpp")
 
 include_directories(${FB_THIRD_PARTY_INCLUDE_DIR})
 
