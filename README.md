@@ -8,7 +8,7 @@
 ```bash
 $ git clone https://github.com/timeStarry/FileBridge
 $ cd FileBridge
-$ git submodule update --init --recursive
-$ cmake -S . -B build
+$ ./third_party_init.sh
+$ make gcc_r # for release build and use g++ compiler
 $ cmake --build build -j`nproc`
 ```
