@@ -11,6 +11,7 @@ auto main(int argc, char* argv[]) -> int {
     bool verbose{false};
     cxxopts::Options options("fb", "基于C++的端到端文件传输服务");
 
+    // clang-format off
     options.add_options()
         ("send", "send file")
         ("recv", "recive file")
@@ -18,6 +19,7 @@ auto main(int argc, char* argv[]) -> int {
         ("f,file", "The filename(s) to process",
             cxxopts::value<std::vector<std::string>>())
         ("h,help", "help infomation");
+    // clang-format on
 
     auto result = options.parse(argc, argv);
 
