@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF) # use c++17 insead of gnuc++17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(FileBridge
-    VERSION 2024.5
+    VERSION 2024.9
     DESCRIPTION "基于C++的端到端文件传输服务"
     LANGUAGES CXX
 )
@@ -15,22 +16,22 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=leak")
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-  message(STATUS "Configuring Debug build")
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3 -Wall -Wextra -Werror -fsanitize=address")
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=signed-integer-overflow,unsigned-integer-overflow -fsanitize-trap=signed-integer-overflow,unsigned-integer-overflow")
-  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=signed-integer-overflow -fsanitize-trap=signed-integer-overflow")
-  endif()
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-  message(STATUS "Configuring Release build")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -pipe -fPIE -Wall -Wextra -Wpedantic -Werror")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fstack-clash-protection -fstack-protector-all -fcf-protection=full")
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wl,-z,now,-z,noexecstack")
-  endif()
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -Werror -Wpedantic -fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined")
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(STATUS "Configuring Release build")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O2 -march=native -pipe -fPIE -Wall -Wextra -Wpedantic -Werror")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fcf-protection=full -fsanitize=integer -fsanitize-minimal-runtime")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -D_FORTIFY_SOURCE=3 -fstack-clash-protection -fstack-protector-all -fstack-protector-strong")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto=thin")
+        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wl,-O2,-z,now,-z,noexecstack,--as-needed,--lto-O2,--icf=safe,--gc-sections,-z,relro")
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto")
+        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wl,-O2,-z,now,-z,noexecstack,--as-needed,--gc-sections,-z,relro")
+    endif()
 endif()
 
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" PATH_TO_CMAKELISTS_TXT)
@@ -39,8 +40,8 @@ if(EXISTS "${PATH_TO_CMAKELISTS_TXT}")
     Some junk files were created in this folder (CMakeCache.txt, CMakeFiles); you should delete those.")
 endif()
 
-# for generate compile_commands
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# for generate all compile_commands
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 add_subdirectory(third_party)
 add_subdirectory(src)
