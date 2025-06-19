@@ -1,3 +1,8 @@
 # FileBridge
-基于C++的端到端文件传输服务
+
 开发中……
+
+idea参阅项目：
+
+- [Filepizza](https://filepizza.tralbi.net/)
+- [Wormhole](https://wormhole.app/)
